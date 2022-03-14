@@ -93,7 +93,7 @@ def get_dataset(amount= 1,prev_dict= {}):
       id = get_id(link)
       if id in prev_dict:
         count += 1
-        if count >= 400:
+        if count >= 10:
           return dataset
         else:
           pass
@@ -108,8 +108,8 @@ def get_dataset(amount= 1,prev_dict= {}):
 
 def main():
     with open("news_2022",'r') as fp:
-        noticia = fp.read()
-    news = json.loads(noticia)
+        news = fp.read()
+    news = json.loads(news)
 
     news = get_dataset(20, prev_dict = news)
 
@@ -119,7 +119,8 @@ def main():
     import pandas as pd
     df = pd.DataFrame(news)
     final = df.T
-    final.to_csv('news.csv', index=False)
+    final.index.name = "id"
+    final.to_csv('news.csv', index=True)
     print(len(news))
 
 main()
